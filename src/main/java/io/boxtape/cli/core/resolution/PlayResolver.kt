@@ -1,4 +1,4 @@
-package io.boxtape.core.resolution
+package io.boxtape.cli.core.resolution
 
 import com.google.common.collect.ArrayListMultimap
 import io.boxtape.core.ansible.PlayProvider

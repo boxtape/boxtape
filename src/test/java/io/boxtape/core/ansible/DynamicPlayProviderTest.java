@@ -4,7 +4,7 @@ import java.io.IOException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.boxtape.cli.core.ansible.plays.DynamicPlayProvider;
 import io.boxtape.core.Dependency;
-import io.boxtape.core.Recipie;
+import io.boxtape.core.Recipe;
 import io.boxtape.core.configuration.Configuration;
 import io.boxtape.core.configuration.VagrantSettings;
 import io.boxtape.yaml.Mappers;
@@ -19,14 +19,14 @@ import static org.junit.Assert.assertThat;
 public class DynamicPlayProviderTest {
 
     Dependency dependency = new Dependency("mysql","mysql-connector-java","5.10");
-    Recipie recipie;
+    Recipe recipe;
     DynamicPlayProvider playProvider;
     @Before
     public void setup() throws IOException {
         String yaml = IOUtils.toString(ClassLoader.getSystemResourceAsStream("example.yml"));
         ObjectMapper mapper = Mappers.Yaml.mapper();
-        recipie = mapper.readValue(yaml, Recipie.class);
-        playProvider = new DynamicPlayProvider(recipie);
+        recipe = mapper.readValue(yaml, Recipe.class);
+        playProvider = new DynamicPlayProvider(recipe);
 
     }
     @Test

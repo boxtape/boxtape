@@ -2,7 +2,7 @@ package io.boxtape.cli;
 
 import com.beust.jcommander.JCommander;
 import io.boxtape.cli.commands.ShellCommand;
-import io.boxtape.core.Project;
+import io.boxtape.cli.core.Project;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;

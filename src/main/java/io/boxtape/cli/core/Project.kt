@@ -1,22 +1,24 @@
-package io.boxtape.core
+package io.boxtape.cli.core
 
 import com.beust.jcommander.Parameter
+import com.beust.jcommander.Parameters
 import io.boxtape.asYaml
 import io.boxtape.cli.Loggers
+import io.boxtape.core.ShellExecutionResult
 import io.boxtape.core.configuration.BoxtapeSettings
-import io.boxtape.core.configuration.BoxtapeSettingsProvider
 import io.boxtape.core.configuration.Configuration
 import org.apache.commons.exec.CommandLine
 import org.apache.commons.exec.DefaultExecutor
 import org.apache.commons.exec.ExecuteException
 import org.apache.commons.io.FileUtils
 import org.apache.commons.io.FilenameUtils
+import org.apache.commons.lang3.SystemUtils
 import org.apache.commons.logging.Log
 import java.io.File
 
-data class Project(Parameter(names = arrayOf("--project", "-p")) val projectPath: String? = File(".").getCanonicalPath(),
+data class Project(Parameter(names = arrayOf("--project", "-p")) val projectPath: String? = SystemUtils.getUserDir().getCanonicalPath(),
                    val config: Configuration = Configuration(),
-                   val settings: BoxtapeSettings = BoxtapeSettingsProvider().build()
+                   val settings: BoxtapeSettings
 ) {
     init {
         if (!projectHome().exists() || !projectHome().isDirectory()) {
@@ -31,7 +33,7 @@ data class Project(Parameter(names = arrayOf("--project", "-p")) val projectPath
     }
 
     fun write(filename: String, content: String) {
-        val fullFilename = if (filename.startsWith("/")) filename else FilenameUtils.concat(projectHome().canonicalPath,filename)
+        val fullFilename = if (filename.startsWith("/")) filename else FilenameUtils.concat(projectHome().canonicalPath, filename)
         val path = FilenameUtils.getFullPath(fullFilename)
         FileUtils.forceMkdir(File(path))
         File(fullFilename).writeText(content)
@@ -60,7 +62,7 @@ data class Project(Parameter(names = arrayOf("--project", "-p")) val projectPath
         write(settings.vagrantSettingsPath, config.vagrantSettings.asYaml())
     }
 
-    fun command(name:String): CommandLine {
+    fun command(name: String): CommandLine {
         return CommandLine(name)
     }
 

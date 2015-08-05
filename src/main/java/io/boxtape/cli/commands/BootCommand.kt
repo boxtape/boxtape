@@ -1,6 +1,6 @@
 package io.boxtape.cli.commands
 
-import io.boxtape.core.Project
+import io.boxtape.cli.core.Project
 import org.apache.commons.exec.CommandLine
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component

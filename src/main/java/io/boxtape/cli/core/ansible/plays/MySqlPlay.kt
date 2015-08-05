@@ -15,7 +15,8 @@ public class MySqlPlay : PlayProvider {
 
     val MY_SQL = Dependency("mysql", "mysql-connector-java", "*")
     override fun canProvideFor(dependency: Dependency): Boolean {
-        return dependency.matches(MY_SQL)
+//        return dependency.matches(MY_SQL)
+        return false;
     }
 
 

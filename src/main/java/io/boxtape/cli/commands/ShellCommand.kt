@@ -1,6 +1,6 @@
 package io.boxtape.cli.commands
 
-import io.boxtape.core.Project
+import io.boxtape.cli.core.Project
 
 public interface ShellCommand {
     fun name():String

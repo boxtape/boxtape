@@ -1,5 +1,7 @@
-package io.boxtape.core
+package io.boxtape.cli.core
 
+import io.boxtape.core.Dependency
+import io.boxtape.cli.core.Project
 import org.apache.maven.cli.MavenCli
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
@@ -20,7 +22,7 @@ public class MavenDependencyCollector @Autowired constructor(val mvn: MavenCli) 
     fun collect(project: Project):List<Dependency> {
         val outputStream = ByteArrayOutputStream()
         val printStream = PrintStream(outputStream)
-        val outputFile = File.createTempFile("dependencies",".txt")
+        val outputFile = File.createTempFile("dependencies", ".txt")
         System.setProperty("maven.multiModuleProjectDirectory" , project.projectHome().canonicalPath)
         mvn.doMain(arrayOf("dependency:tree","-Dscope=compile", "-DoutputFile=${outputFile.getCanonicalPath()}"), project.projectHome().canonicalPath, printStream, printStream)
 

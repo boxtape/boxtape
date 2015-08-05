@@ -1,4 +1,4 @@
-package io.boxtape.core
+package io.boxtape.cli.core
 
 import org.springframework.stereotype.Component
 

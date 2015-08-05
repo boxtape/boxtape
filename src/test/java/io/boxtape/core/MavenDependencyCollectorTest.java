@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
+import io.boxtape.cli.core.MavenDependencyCollector;
+import io.boxtape.cli.core.Project;
 import io.boxtape.core.configuration.BoxtapeSettings;
 import io.boxtape.core.configuration.Configuration;
 import org.apache.commons.lang3.StringUtils;

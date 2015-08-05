@@ -1,0 +1,24 @@
+---
+name: MySql
+resolutions:
+ - mysql:mysql-connector-java:*
+forwardedPorts:
+ - host: 33060
+   guest: 3306
+roles:
+     - {
+        name: mysql,
+        src: bennojoy.mysql,
+        mysql_db: [{name: "${dbName:boxtape_example}"}],
+        mysql_users: [{
+            name: "${dbUser:boxtapeUser}",
+            pass: "${dbPassword:password}",
+            priv: "*.*:ALL",
+            host: "10.2.2.%"
+            }]
+    }
+properties:
+    "spring.datasource.url" : "jdbc:mysql://localhost:33060/${dbName}"
+    "spring.datasource.username" : "${dbUser}"
+    "spring.datasource.password" : "${dbPassword}"
+
