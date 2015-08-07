@@ -33,7 +33,7 @@ public class MavenDependencyCollectorTest {
         MavenCli cli = new MavenCli();
         collector = new MavenDependencyCollector(cli);
 
-        sampleProject = new Project(sampleProjectHome.getCanonicalPath() , new Configuration(), new BoxtapeSettings());
+        sampleProject = new Project(sampleProjectHome.getCanonicalPath() , new Configuration(), new BoxtapeSettings(null));
 
     }
 
