@@ -43,6 +43,7 @@ public class PlayRepository @Autowired constructor(private val providers: List<P
             }
         }
         settings.getRecipePaths().forEach { configPath ->
+            log.info("Scanning ${configPath.toString()} for recipes")
             Files.walkFileTree(Paths.get(configPath.toURI()), visitor)
         }
         log.info("Discovered " + matches.size() + " local recipes")

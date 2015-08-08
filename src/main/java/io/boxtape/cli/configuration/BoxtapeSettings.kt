@@ -29,6 +29,13 @@ data public class BoxtapeSettings(
         ).filter({ it.exists() })
     }
 
+    /**
+     * Relative to the project root
+     */
     var projectConfigFilePath = ".boxtape/application.properties"
+
+    /**
+     * Relative to the project root
+     */
     var vagrantSettingsPath = ".boxtape/vagrantSettings.yml"
 }
