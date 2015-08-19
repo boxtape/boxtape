@@ -1,7 +1,7 @@
 package io.boxtape.cli.configuration
 
 import io.boxtape.core.configuration.BoxtapeSettings
-import java.io.File
+import org.aeonbits.owner.ConfigFactory
 
 /**
  * Builds a Boxtape Configuration,
@@ -14,6 +14,7 @@ public class BoxtapeSettingsProvider(
 ) {
 
     fun build(): BoxtapeSettings {
-        return BoxtapeSettings(additionalRecipePath)
+        val config = ConfigFactory.create(javaClass<BoxtapeConfig>())
+        return BoxtapeSettings(additionalRecipePath,config)
     }
 }
