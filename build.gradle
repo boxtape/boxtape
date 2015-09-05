@@ -82,5 +82,3 @@ bintray {
         vcsUrl = 'https://github.com/boxtape/boxtape-cli.git'
     }
 }
-
-afterReleaseBuild.dependsOn bintrayUpload
