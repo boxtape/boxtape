@@ -2,14 +2,14 @@ package io.boxtape.core.configuration
 
 import com.beust.jcommander.Parameter
 import com.beust.jcommander.Parameters
-import io.boxtape.cli.configuration.BoxtapeConfig
+import io.boxtape.cli.configuration.LoadableBoxtapeConfig
 import org.apache.commons.io.FilenameUtils
 import java.io.File
 @Parameters(separators = "=")
-data public class BoxtapeSettings(
+data public class LoadableBoxtapeSettings(
     Parameter(names = arrayOf("--recipePath", "-r")) val additionalRecipePath: String?,
-    config:BoxtapeConfig
-) : BoxtapeConfig by config {
+    config: LoadableBoxtapeConfig
+) : LoadableBoxtapeConfig by config {
     fun getDefaultVagrantFile(): String {
         // TODO : Make this configurable
         val vagrantFile = this.javaClass.getClassLoader().getResource("Vagrantfile").readText()
@@ -30,6 +30,12 @@ data public class BoxtapeSettings(
             File(FilenameUtils.concat(System.getProperty("user.dir"), ".boxtape/"))
         ).filter({ it.exists() })
     }
+
+    /**
+     * Primary recipe path.  Where content is downloaded
+     * to
+     */
+    var primaryRecipePath = FilenameUtils.concat("${System.getProperty("user.home")}",".boxtape/recipes")
 
     /**
      * The path to the config file that Boxtape will write

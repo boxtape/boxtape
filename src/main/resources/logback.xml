@@ -16,6 +16,9 @@
         <appender-ref ref="STDOUT" />
     </logger>
 
+    <logger name="io.boxtape" level="DEBUG">
+        <appender-ref ref="STDOUT" />
+    </logger>
     <root level="debug">
         <appender-ref ref="FILE" />
     </root>

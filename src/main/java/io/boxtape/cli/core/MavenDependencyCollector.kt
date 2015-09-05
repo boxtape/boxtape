@@ -1,6 +1,6 @@
 package io.boxtape.cli.core
 
-import io.boxtape.core.Dependency
+import io.boxtape.core.LibraryArtifact
 import io.boxtape.cli.core.Project
 import org.apache.maven.cli.MavenCli
 import org.springframework.beans.factory.annotation.Autowired
@@ -19,7 +19,7 @@ public class MavenDependencyCollector @Autowired constructor(val mvn: MavenCli) 
     val ARTIFACT_ID = 1
     val VERSION = 3
 
-    fun collect(project: Project):List<Dependency> {
+    fun collect(project: Project):List<LibraryArtifact> {
         val outputStream = ByteArrayOutputStream()
         val printStream = PrintStream(outputStream)
         val outputFile = File.createTempFile("dependencies", ".txt")
@@ -30,7 +30,7 @@ public class MavenDependencyCollector @Autowired constructor(val mvn: MavenCli) 
             .map { trimTreeSyntax(it) }
             .map {
                 val parts = it.splitBy(":")
-                Dependency(parts[GROUP_ID], parts[ARTIFACT_ID], parts[VERSION])
+                LibraryArtifact(parts[GROUP_ID], parts[ARTIFACT_ID], parts[VERSION])
             }
         return output
     }

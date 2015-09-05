@@ -1,36 +1,38 @@
 package io.boxtape.cli.core.ansible.plays
 
-import io.boxtape.core.Dependency
+import io.boxtape.core.CoordinateComponentProvider
+import io.boxtape.core.LibraryArtifact
 import io.boxtape.core.Recipe
 import io.boxtape.core.ansible.AnsibleRole
 import io.boxtape.core.ansible.PlayProvider
 import io.boxtape.core.configuration.Configuration
 import io.boxtape.getPropertyDeclarations
 import io.boxtape.withoutKeys
-import java.util.regex.Pattern
 
 
 public class DynamicPlayProvider(val recipe: Recipe) : PlayProvider {
 
-    override fun canProvideFor(dependency: Dependency): Boolean {
-        return recipe.resolutions.map { Dependency.fromName(it) }
-            .any { dependency.matches(it) }
+    override fun canProvideFor(libraryArtifact: LibraryArtifact): Boolean {
+        return recipe.resolutions.map { CoordinateComponentProvider.fromName(it) }
+            .any { it.canProvideFor(libraryArtifact) }
     }
 
     override fun provideApplicationConfiguration() : List<String> {
         return emptyList()
     }
 
-    override fun provideRoles(dependency: Dependency, config: Configuration) : List<AnsibleRole> {
+    override fun provideRoles(libraryArtifact: LibraryArtifact, config: Configuration) : List<AnsibleRole> {
         registerDeclaredProperties(config)
         registerForwardedPorts(config);
         return recipe.roles.map {
-            val args = it.withoutKeys("name","src").toList()
-            registerConfigProperties(config,args)
+
+            val args = it.withoutKeys("name","src")
+
+            registerConfigProperties(config,args.toList())
             AnsibleRole(
                 name = it.get("name") as String,
                 src = it.get("src") as String,
-                args = config.resolveProperties(it.withoutKeys("name","src")).toList()
+                args = config.resolveProperties(args).toList()
             )
         }
     }

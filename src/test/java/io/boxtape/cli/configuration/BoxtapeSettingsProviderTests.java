@@ -3,7 +3,7 @@ package io.boxtape.cli.configuration;
 import java.io.File;
 import java.net.URISyntaxException;
 import java.net.URL;
-import io.boxtape.core.configuration.BoxtapeSettings;
+import io.boxtape.core.configuration.LoadableBoxtapeSettings;
 import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -17,7 +17,7 @@ public class BoxtapeSettingsProviderTests {
         URL resource = ClassLoader.getSystemClassLoader().getResource("samplePlays");
         File recipeDir = new File(resource.toURI());
         assertThat(recipeDir.exists(), is(true));
-        BoxtapeSettings settings = new BoxtapeSettingsProvider(
+        LoadableBoxtapeSettings settings = new BoxtapeSettingsProvider(
             recipeDir.getPath()
         ).build();
 

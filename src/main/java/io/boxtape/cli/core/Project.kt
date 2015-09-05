@@ -5,7 +5,7 @@ import com.beust.jcommander.Parameters
 import io.boxtape.asYaml
 import io.boxtape.cli.Loggers
 import io.boxtape.core.ShellExecutionResult
-import io.boxtape.core.configuration.BoxtapeSettings
+import io.boxtape.core.configuration.LoadableBoxtapeSettings
 import io.boxtape.core.configuration.Configuration
 import org.apache.commons.exec.CommandLine
 import org.apache.commons.exec.DefaultExecutor
@@ -18,7 +18,7 @@ import java.io.File
 
 data class Project(Parameter(names = arrayOf("--project", "-p")) val projectPath: String? = SystemUtils.getUserDir().getCanonicalPath(),
                    val config: Configuration = Configuration(),
-                   val settings: BoxtapeSettings
+                   val settings: LoadableBoxtapeSettings
 ) {
     init {
         if (!projectHome().exists() || !projectHome().isDirectory()) {

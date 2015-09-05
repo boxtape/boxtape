@@ -1,7 +1,7 @@
 package io.boxtape.core.ansible.plays
 
 import io.boxtape.core.configuration.Configuration
-import io.boxtape.core.Dependency
+import io.boxtape.core.LibraryArtifact
 import io.boxtape.core.ansible.AnsibleRole
 import io.boxtape.core.ansible.PlayProvider
 import io.boxtape.toKeyValueMap
@@ -13,14 +13,14 @@ public class MySqlPlay : PlayProvider {
 
     // TODO: https://github.com/bennojoy/mysql
 
-    val MY_SQL = Dependency("mysql", "mysql-connector-java", "*")
-    override fun canProvideFor(dependency: Dependency): Boolean {
+    val MY_SQL = LibraryArtifact("mysql", "mysql-connector-java", "*")
+    override fun canProvideFor(libraryArtifact: LibraryArtifact): Boolean {
 //        return dependency.matches(MY_SQL)
         return false;
     }
 
 
-    override fun provideRoles(dependency: Dependency, config: Configuration): List<AnsibleRole> {
+    override fun provideRoles(libraryArtifact: LibraryArtifact, config: Configuration): List<AnsibleRole> {
         val dbName = "boxtape_example" // TODO : Randomize
         val dbUser = "boxtapeUser"
         val dbPassword = "B0xT4p3C0nf1g"

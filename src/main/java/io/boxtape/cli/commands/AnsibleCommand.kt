@@ -3,7 +3,7 @@ package io.boxtape.cli.commands
 import com.google.common.collect.ArrayListMultimap
 import io.boxtape.asYaml
 import io.boxtape.cli.Loggers
-import io.boxtape.core.Dependency
+import io.boxtape.core.LibraryArtifact
 import io.boxtape.cli.core.MavenDependencyCollector
 import io.boxtape.cli.core.Project
 import io.boxtape.core.ansible.PlayProvider
@@ -35,7 +35,7 @@ public class AnsibleCommand @Autowired constructor(
         writeRequirements(playbook, project)
     }
 
-    private fun logPlays(project: Project, plays: ArrayListMultimap<Dependency, PlayProvider>) {
+    private fun logPlays(project: Project, plays: ArrayListMultimap<LibraryArtifact, PlayProvider>) {
         project.console.info("${plays.size()} plays were discovered")
         plays.asMap().forEach { entry ->
             entry.getValue().forEach { play ->

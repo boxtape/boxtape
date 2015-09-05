@@ -8,7 +8,7 @@ import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
 import io.boxtape.cli.core.MavenDependencyCollector;
 import io.boxtape.cli.core.Project;
-import io.boxtape.core.configuration.BoxtapeSettings;
+import io.boxtape.core.configuration.LoadableBoxtapeSettings;
 import io.boxtape.core.configuration.Configuration;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.cli.MavenCli;
@@ -33,7 +33,7 @@ public class MavenDependencyCollectorTest {
         MavenCli cli = new MavenCli();
         collector = new MavenDependencyCollector(cli);
 
-        sampleProject = new Project(sampleProjectHome.getCanonicalPath() , new Configuration(), new BoxtapeSettings(null,null));
+        sampleProject = new Project(sampleProjectHome.getCanonicalPath() , new Configuration(), new LoadableBoxtapeSettings(null,null));
 
     }
 
@@ -51,8 +51,8 @@ public class MavenDependencyCollectorTest {
 
     @Test
     public void givenSampleProject_shouldResolveDependencies() throws IOException {
-        List<Dependency> dependencies = collector.collect(sampleProject);
-        Dependency mySql = new Dependency("mysql","mysql-connector-java","5.1.34");
+        List<LibraryArtifact> dependencies = collector.collect(sampleProject);
+        LibraryArtifact mySql = new LibraryArtifact("mysql","mysql-connector-java","5.1.34");
         assertThat(dependencies, not(empty()));
         assertThat(dependencies, hasItem(mySql));
     }
