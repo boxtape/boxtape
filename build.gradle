@@ -1,3 +1,8 @@
+plugins {
+    id 'net.researchgate.release' version '2.2.1'
+}
+
+
 buildscript {
     repositories {
         jcenter()
@@ -82,3 +87,12 @@ bintray {
         vcsUrl = 'https://github.com/boxtape/boxtape-cli.git'
     }
 }
+
+release {
+    failOnCommitNeeded = false
+    failOnPublishNeeded = false
+    failOnSnapshotDependencies = false
+    revertOnFail = true
+}
+
+afterReleaseBuild.dependsOn bintrayUpload
