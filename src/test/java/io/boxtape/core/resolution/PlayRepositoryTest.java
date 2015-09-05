@@ -2,13 +2,11 @@ package io.boxtape.core.resolution;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
-import io.boxtape.cli.configuration.BoxtapeSettingsProvider;
 import io.boxtape.cli.core.resolution.FileDownloader;
 import io.boxtape.cli.core.resolution.PlayRepository;
 import io.boxtape.cli.core.resolution.dispensary.LookupResult;
@@ -36,7 +34,7 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 public class PlayRepositoryTest {
 
-    private LoadableBoxtapeSettings settings;
+    @Mock LoadableBoxtapeSettings settings;
 
     @Mock
     public FileDownloader downloader;
@@ -50,10 +48,9 @@ public class PlayRepositoryTest {
         URL resource = ClassLoader.getSystemClassLoader().getResource("samplePlays");
         File recipeDir = new File(resource.toURI());
         assertThat(recipeDir.exists(), is(true));
-        settings = new BoxtapeSettingsProvider(
-            recipeDir.getPath()
-        ).build();
-        settings.setPrimaryRecipePath(temporaryFolder.getRoot().getCanonicalPath());
+
+        when(settings.getRecipePaths()).thenReturn(Lists.newArrayList(recipeDir));
+        when(settings.getPrimaryRecipePath()).thenReturn(temporaryFolder.getRoot().getCanonicalPath());
         repository = new PlayRepository(Lists.newArrayList(), settings, downloader);
     }
 
@@ -75,9 +72,15 @@ public class PlayRepositoryTest {
     }
 
     @Test
-    public void givenFileExists_that_itIsNotAttemptedToDownload() throws MalformedURLException {
+    public void givenFileExists_that_itIsNotAttemptedToDownload() throws IOException {
+        writeBoxtapeFile("boxtape/core-plays/mysql/0.0.1/boxtape.yml");
         repository.downloadMissing(getSearchResults());
         verify(downloader, never()).downloadContent(eq(new URL("http://localhost:8080/recipes/boxtape/core-plays/mysql@0.0.1")));
+    }
+
+    private void writeBoxtapeFile(final String path) throws IOException {
+        File file = new File(FilenameUtils.concat(temporaryFolder.getRoot().getCanonicalPath(), path));
+        FileUtils.writeStringToFile(file, "foo");
     }
 
     @NotNull

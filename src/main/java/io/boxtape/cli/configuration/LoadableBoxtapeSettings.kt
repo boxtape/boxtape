@@ -6,7 +6,7 @@ import io.boxtape.cli.configuration.LoadableBoxtapeConfig
 import org.apache.commons.io.FilenameUtils
 import java.io.File
 @Parameters(separators = "=")
-data public class LoadableBoxtapeSettings(
+open data public class LoadableBoxtapeSettings(
     Parameter(names = arrayOf("--recipePath", "-r")) val additionalRecipePath: String?,
     config: LoadableBoxtapeConfig
 ) : LoadableBoxtapeConfig by config {
@@ -16,7 +16,7 @@ data public class LoadableBoxtapeSettings(
         return vagrantFile
     }
 
-    fun getRecipePaths():List<File> {
+    open fun getRecipePaths():List<File> {
         return if (additionalRecipePath != null && File(additionalRecipePath).exists()) {
             getConfigPaths().plus(File(additionalRecipePath))
         } else {
@@ -35,7 +35,7 @@ data public class LoadableBoxtapeSettings(
      * Primary recipe path.  Where content is downloaded
      * to
      */
-    var primaryRecipePath = FilenameUtils.concat("${System.getProperty("user.home")}",".boxtape/recipes")
+    open var primaryRecipePath = FilenameUtils.concat("${System.getProperty("user.home")}",".boxtape/recipes")
 
     /**
      * The path to the config file that Boxtape will write
