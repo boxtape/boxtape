@@ -9,13 +9,17 @@ buildscript {
     }
 }
 
+plugins {
+    id 'net.researchgate.release' version '2.2.1'
+}
+
 apply plugin: 'java'
 apply plugin: 'kotlin'
 apply plugin: 'application'
 apply plugin: 'com.jfrog.bintray'
 
+
 group = 'io.boxtape'
-version = '0.0.1'
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
@@ -82,3 +86,5 @@ bintray {
         vcsUrl = 'https://github.com/boxtape/boxtape-cli.git'
     }
 }
+
+afterReleaseBuild.dependsOn bintrayUpload
