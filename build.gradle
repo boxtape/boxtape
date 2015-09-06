@@ -5,6 +5,10 @@ allprojects {
     version = '1.0-SNAPSHOT'
 }
 
+plugins {
+    id 'net.researchgate.release' version '2.2.1'
+}
+
 subprojects {
     apply plugin: 'java'
     sourceCompatibility = 1.8
@@ -18,3 +22,4 @@ subprojects {
     }
 }
 
+afterReleaseBuild.dependsOn bintrayUpload

@@ -1,5 +1,4 @@
-rootProject.name = 'boxtape-parent'
-include ':boxtape-core-plays'
+rootProject.name = 'boxtape'
 include ':boxtape-api'
 include ':boxtape-cli'
 
