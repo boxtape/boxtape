@@ -47,20 +47,8 @@ dependencies {
 }
 
 bintray {
-    user = System.getenv('BINTRAY_USER')
-    key = System.getenv('BINTRAY_KEY')
-    filesSpec { //When uploading any arbitrary files ('filesSpec' is a standard Gradle CopySpec)
-        from "build/distributions"
-        into 'bin/'
-    }
     pkg {
-        version {
-            name = "$project.version"
-        }
-        repo = 'releases'
         name = 'boxtape-cli'
-        userOrg = 'boxtape'
-        licenses = ['Apache-2.0']
-        vcsUrl = 'https://github.com/boxtape/boxtape-cli.git'
     }
 }
+
