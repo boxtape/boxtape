@@ -1,0 +1,98 @@
+buildscript {
+    repositories {
+        jcenter()
+        mavenCentral()
+    }
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:0.12.613"
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.2'
+    }
+}
+
+plugins {
+    id 'net.researchgate.release' version '2.2.1'
+}
+
+
+apply plugin: 'java'
+apply plugin: 'kotlin'
+apply plugin: 'application'
+apply plugin: 'com.jfrog.bintray'
+
+
+group = 'io.boxtape'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+applicationName = 'boxtape'
+
+distZip {
+    archiveName 'boxtape.zip'
+}
+
+sourceSets {
+    main.kotlin.srcDirs += 'src/main/java'
+}
+
+mainClassName = "io.boxtape.cli.BoxtapeCli"
+
+dependencies {
+    compile group: 'org.jetbrains.kotlin', name: 'kotlin-stdlib', version: '0.12.613'
+    compile(group: 'org.springframework.boot', name: 'spring-boot-starter', version: '1.2.3.RELEASE') {
+        exclude(module: 'commons-logging')
+    }
+    compile group: 'org.springframework.shell', name: 'spring-shell', version: '1.1.0.RELEASE'
+    compile project(':boxtape-api')
+    compile group: 'org.apache.maven', name: 'maven-embedder', version: '3.3.3'
+    compile group: 'org.eclipse.aether', name: 'aether-connector-basic', version: '1.0.2.v20150114'
+    compile group: 'org.eclipse.aether', name: 'aether-transport-wagon', version: '1.0.2.v20150114'
+    compile group: 'org.apache.maven.wagon', name: 'wagon-http', version: '2.9'
+    compile group: 'org.apache.maven.wagon', name: 'wagon-provider-api', version: '2.9'
+    compile group: 'org.apache.maven.wagon', name: 'wagon-http-lightweight', version: '2.9'
+    compile group: 'com.github.zafarkhaja', name: 'java-semver', version: '0.9.0'
+    compile group: 'com.google.guava', name: 'guava', version: '17.0'
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.6.1'
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.6.1'
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: '2.6.1'
+    compile group: 'com.fasterxml.jackson.dataformat', name: 'jackson-dataformat-yaml', version: '2.6.1'
+    compile group: 'com.fasterxml.jackson.module', name: 'jackson-module-kotlin', version: '2.6.1'
+    compile 'com.fasterxml.jackson.datatype:jackson-datatype-guava:2.6.1'
+    compile group: 'com.beust', name: 'jcommander', version: '1.48'
+    compile group: 'commons-io', name: 'commons-io', version: '2.4'
+    compile group: 'org.apache.commons', name: 'commons-exec', version: '1.3'
+    compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.3.2'
+    compile 'org.aeonbits.owner:owner:1.0.9'
+    compile 'com.mashape.unirest:unirest-java:1.4.7'
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+    testCompile group: 'org.hamcrest', name: 'hamcrest-all', version: '1.3'
+    testCompile 'org.mockito:mockito-all:1.10.19'
+}
+
+bintray {
+    user = System.getenv('BINTRAY_USER')
+    key = System.getenv('BINTRAY_KEY')
+    filesSpec { //When uploading any arbitrary files ('filesSpec' is a standard Gradle CopySpec)
+        from "build/distributions"
+        into 'bin/'
+    }
+    pkg {
+        version {
+            name = "$project.version"
+        }
+        repo = 'releases'
+        name = 'boxtape-cli'
+        userOrg = 'boxtape'
+        licenses = ['Apache-2.0']
+        vcsUrl = 'https://github.com/boxtape/boxtape-cli.git'
+    }
+}
+
+release {
+    failOnCommitNeeded = false
+    failOnPublishNeeded = false
+    failOnSnapshotDependencies = false
+    revertOnFail = true
+}
+
+afterReleaseBuild.dependsOn bintrayUpload

@@ -1,0 +1,8 @@
+rootProject.name = 'boxtape-parent'
+include ':boxtape-core-plays'
+include ':boxtape-api'
+include ':boxtape-cli'
+
+//project(':boxtape-core-plays').projectDir = "$rootDir/boxtape-core-plays" as File
+project(':boxtape-api').projectDir = "$rootDir/boxtape-api" as File
+project(':boxtape-cli').projectDir = "$rootDir/boxtape-cli" as File
