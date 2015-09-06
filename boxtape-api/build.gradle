@@ -30,3 +30,8 @@ dependencies {
 }
 
 
+bintray {
+    pkg {
+        name = 'boxtape-api'
+    }
+}
