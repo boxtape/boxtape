@@ -1,16 +1,31 @@
-allprojects {
-    apply plugin: 'maven'
-
-    group = 'io.boxtape'
-    version = '1.0-SNAPSHOT'
+buildscript {
+    repositories {
+        jcenter()
+        mavenCentral()
+    }
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:0.12.613"
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.2'
+    }
 }
-
 plugins {
     id 'net.researchgate.release' version '2.2.1'
 }
 
+allprojects {
+    apply plugin: 'maven'
+    apply plugin: 'com.jfrog.bintray'
+
+    group = 'io.boxtape'
+    version = '1.0-SNAPSHOT'
+
+}
+
+
 subprojects {
     apply plugin: 'java'
+    apply plugin: 'kotlin'
+
     sourceCompatibility = 1.8
     targetCompatibility = 1.8
 
@@ -21,5 +36,13 @@ subprojects {
         maven { url "http://repo.maven.apache.org/maven2" }
     }
 }
+
+release {
+    failOnCommitNeeded = false
+    failOnPublishNeeded = false
+    failOnSnapshotDependencies = false
+    revertOnFail = true
+}
+
 
 afterReleaseBuild.dependsOn bintrayUpload
