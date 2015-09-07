@@ -2,14 +2,13 @@ package io.boxtape.cli.commands
 
 import com.google.common.collect.ArrayListMultimap
 import io.boxtape.asYaml
-import io.boxtape.cli.Loggers
-import io.boxtape.core.LibraryArtifact
-import io.boxtape.cli.core.MavenDependencyCollector
+import io.boxtape.cli.core.DependencyCollector
 import io.boxtape.cli.core.Project
+import io.boxtape.cli.core.resolution.PlayResolver
+import io.boxtape.core.LibraryArtifact
 import io.boxtape.core.ansible.PlayProvider
 import io.boxtape.core.ansible.Playbook
 import io.boxtape.core.ansible.PlaybookBuilder
-import io.boxtape.cli.core.resolution.PlayResolver
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 
@@ -21,7 +20,7 @@ import org.springframework.stereotype.Component
  */
 Component
 public class AnsibleCommand @Autowired constructor(
-    val dependecyCollector : MavenDependencyCollector,
+    val dependecyCollector : DependencyCollector,
     val playResolver : PlayResolver
 ) : ShellCommand {
 
