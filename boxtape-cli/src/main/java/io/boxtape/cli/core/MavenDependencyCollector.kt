@@ -12,14 +12,18 @@ import java.util.regex.Pattern
 
 
 @Component
-public class MavenDependencyCollector @Autowired constructor(val mvn: MavenCli) {
+public class MavenDependencyCollector @Autowired constructor(val mvn: MavenCli):DependencyCollector {
 
     val ALPHA_CHARACTER = Pattern.compile("[a-zA-Z]");
     val GROUP_ID = 0
     val ARTIFACT_ID = 1
     val VERSION = 3
 
-    fun collect(project: Project):List<LibraryArtifact> {
+    override fun collect(project: Project):List<LibraryArtifact> {
+        if (!project.hasFile("pom.xml")) {
+            return listOf()
+        }
+
         val outputStream = ByteArrayOutputStream()
         val printStream = PrintStream(outputStream)
         val outputFile = File.createTempFile("dependencies", ".txt")

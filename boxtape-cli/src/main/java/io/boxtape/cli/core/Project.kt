@@ -66,6 +66,10 @@ data class Project(Parameter(names = arrayOf("--project", "-p")) val projectPath
         return CommandLine(name)
     }
 
+    fun hasFile(path: String): Boolean {
+        return File(FilenameUtils.concat(projectHome().canonicalPath, path)).exists()
+    }
+
 
 }
 
