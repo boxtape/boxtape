@@ -114,5 +114,3 @@ local.properties
 
 # Boxtape specific files
 .boxtape/
-.vagrant/
-Vagrantfile
