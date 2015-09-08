@@ -55,9 +55,14 @@ public class GradleDependencyCollectorTest {
 
     @Before
     public void setup() throws IOException, URISyntaxException {
-        String boxtapeCliProjectPath = FilenameUtils.concat(System.getProperty("user.dir"), "boxtape-cli");
-        assertThat(new File(boxtapeCliProjectPath).exists(), is(true));
-        sampleProject = new Project(boxtapeCliProjectPath, new Configuration(), new LoadableBoxtapeSettings(null, config));
+
+        String projectDir = System.getProperty("user.dir");
+        if (!projectDir.endsWith("boxtape-cli")) {
+            projectDir = FilenameUtils.concat(projectDir, "boxtape-cli");
+        }
+
+        assertThat("No project found at " + projectDir, new File(projectDir).exists(), is(true));
+        sampleProject = new Project(projectDir, new Configuration(), new LoadableBoxtapeSettings(null, config));
         collector = new GradleDependencyCollector(gradleHome);
     }
 
