@@ -15,6 +15,8 @@ class GradleDependencyCollector(val gradleHome: File? = null):DependencyCollecto
             return listOf()
         }
 
+        project.console.info("Reading your gradle.build file for dependencies")
+
         val result : MutableList<LibraryArtifact> = arrayListOf()
         val projectConnection = gradleConnector()
             .forProjectDirectory(project.projectHome())
@@ -26,7 +28,7 @@ class GradleDependencyCollector(val gradleHome: File? = null):DependencyCollecto
                 .map {
                     (it as IdeaSingleEntryLibraryDependency).getGradleModuleVersion()
                 }
-                .mapTo(result,  { LibraryArtifact(it.getGroup(), it.getName(), it.getVersion())} )
+                .mapNotNullTo(result,  { LibraryArtifact(it.getGroup(), it.getName(), it.getVersion())} )
         }
         return result.toList()
     }

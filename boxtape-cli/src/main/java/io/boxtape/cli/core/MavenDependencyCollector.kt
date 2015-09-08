@@ -24,6 +24,8 @@ public class MavenDependencyCollector @Autowired constructor(val mvn: MavenCli):
             return listOf()
         }
 
+        project.console.info("Reading your maven pom for dependencies")
+
         val outputStream = ByteArrayOutputStream()
         val printStream = PrintStream(outputStream)
         val outputFile = File.createTempFile("dependencies", ".txt")
