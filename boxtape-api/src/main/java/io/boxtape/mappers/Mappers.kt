@@ -18,7 +18,6 @@ public object Mappers {
 
         listOf(yamlMapper,jsonMapper).forEach { mapper ->
             modules.forEach { module ->
-                System.out.println("Registered module ${module.getModuleName()}")
                 mapper.registerModule(module)
             }
         }
